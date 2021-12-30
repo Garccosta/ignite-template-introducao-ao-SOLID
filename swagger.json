@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ignite´s Solid Challenge",
+    "description": "This is the Ignite´s Solid Challenge API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "garccosta@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "User1",
+                  "email": "user1@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List users",
+        "description": "List all users",
+        "parameters": [
+          {
+          "name": "user_id",
+          "in": "header",
+          "required": true,
+          "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "You don't have permission to execute this command"
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "User profile",
+        "description": "Show user profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "There is no user with this id!"
+          }
+        }
+      }
+    },
+    "/users/{userId}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "User admin role",
+        "description": "Enable admin role to user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "There is no user with this id!"
+          }
+        }
+      }
+    }
+  }
+}
