@@ -1,4 +1,4 @@
-import { User } from "../../model/User";
+import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
@@ -8,8 +8,8 @@ interface IRequest {
 class ListAllUsersUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
-  execute({ user_id }: IRequest): User[] {
-    const user = this.usersRepository.findById(user_id);
+  async execute({ user_id }: IRequest): Promise<User[]> {
+    const user = await this.usersRepository.findById(user_id);
     const isAdmin = user.admin === true;
 
     if (isAdmin) {

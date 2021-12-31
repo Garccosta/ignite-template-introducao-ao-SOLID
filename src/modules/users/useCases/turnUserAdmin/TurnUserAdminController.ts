@@ -5,10 +5,10 @@ import { TurnUserAdminUseCase } from "./TurnUserAdminUseCase";
 class TurnUserAdminController {
   constructor(private turnUserAdminUseCase: TurnUserAdminUseCase) {}
 
-  handle(request: Request, response: Response): Response {
+  async handle(request: Request, response: Response): Promise<Response> {
     try {
       const { user_id } = request.params;
-      const user = this.turnUserAdminUseCase.execute({ user_id });
+      const user = await this.turnUserAdminUseCase.execute({ user_id });
 
       return response.status(200).json(user);
     } catch (error) {

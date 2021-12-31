@@ -8,7 +8,7 @@ describe("ShowUserProfileUseCase", () => {
   let showUserProfileUseCase: ShowUserProfileUseCase;
 
   beforeAll(() => {
-    usersRepository = UsersRepository.getInstance();
+    usersRepository = new UsersRepository();
     showUserProfileUseCase = new ShowUserProfileUseCase(usersRepository);
   });
 

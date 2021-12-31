@@ -36,9 +36,9 @@ describe("[POST] /users", () => {
 
 describe("[PATCH] /users/:user_id/admin", () => {
   it("should be able to turn an user as admin", async () => {
-    const usersRepository = UsersRepository.getInstance();
+    const usersRepository = new UsersRepository();
 
-    const user = usersRepository.create({
+    const user = await usersRepository.create({
       name: String(Math.random()),
       email: String(Math.random()),
     });
@@ -63,9 +63,9 @@ describe("[PATCH] /users/:user_id/admin", () => {
 
 describe("[GET] /users/:user_id", () => {
   it("should be able to get user profile by ID", async () => {
-    const usersRepository = UsersRepository.getInstance();
+    const usersRepository = new UsersRepository();
 
-    const user = usersRepository.create({
+    const user = await usersRepository.create({
       name: String(Math.random()),
       email: String(Math.random()),
     });
@@ -94,9 +94,9 @@ describe("[GET] /users/:user_id", () => {
 
 describe("[GET] /users", () => {
   it("should be able to list all users", async () => {
-    const usersRepository = UsersRepository.getInstance();
+    const usersRepository = new UsersRepository();
 
-    const user1 = usersRepository.create({
+    const user1 = await usersRepository.create({
       name: String(Math.random()),
       email: String(Math.random()),
     });
@@ -131,9 +131,9 @@ describe("[GET] /users", () => {
   });
 
   it("should not be able to a non admin user get list of all users", async () => {
-    const usersRepository = UsersRepository.getInstance();
+    const usersRepository = new UsersRepository();
 
-    const user = usersRepository.create({
+    const user = await usersRepository.create({
       name: String(Math.random()),
       email: String(Math.random()),
     });

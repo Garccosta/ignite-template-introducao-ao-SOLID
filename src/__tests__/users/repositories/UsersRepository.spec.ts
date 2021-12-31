@@ -6,11 +6,11 @@ describe("UsersRepository", () => {
   let usersRepository: UsersRepository;
 
   beforeAll(() => {
-    usersRepository = UsersRepository.getInstance();
+    usersRepository = new UsersRepository();
   });
 
-  it("should be able to create new users", () => {
-    const user = usersRepository.create({
+  it("should be able to create new users", async () => {
+    const user = await usersRepository.create({
       name: "Vinicius Fraga",
       email: "vinifraga@rocketseat.com",
     });
@@ -25,8 +25,8 @@ describe("UsersRepository", () => {
     expect(user.updated_at).toBeInstanceOf(Date);
   });
 
-  it("should be able to list all users", () => {
-    const user = usersRepository.create({
+  it("should be able to list all users", async () => {
+    const user = await usersRepository.create({
       name: "Danilo Vieira",
       email: "danilo@rocketseat.com",
     });
@@ -36,13 +36,13 @@ describe("UsersRepository", () => {
     expect(users).toStrictEqual(expect.arrayContaining([user]));
   });
 
-  it("should be able to find user by ID", () => {
-    const user = usersRepository.create({
+  it("should be able to find user by ID", async () => {
+    const user = await usersRepository.create({
       name: "Vinicius Fraga",
       email: "vinifraga@rocketseat.com",
     });
 
-    const findUser = usersRepository.findById(user.id);
+    const findUser = await usersRepository.findById(user.id);
 
     expect(findUser).toMatchObject({
       name: user.name,
@@ -54,13 +54,13 @@ describe("UsersRepository", () => {
     expect(findUser.updated_at).toBeInstanceOf(Date);
   });
 
-  it("should be able to find user by e-mail address", () => {
-    const user = usersRepository.create({
+  it("should be able to find user by e-mail address", async () => {
+    const user = await usersRepository.create({
       name: "Vinicius Fraga",
       email: "vinifraga@rocketseat.com",
     });
 
-    const findUser = usersRepository.findByEmail(user.email);
+    const findUser = await usersRepository.findByEmail(user.email);
 
     expect(findUser).toMatchObject({
       name: user.name,
@@ -72,13 +72,13 @@ describe("UsersRepository", () => {
     expect(findUser.updated_at).toBeInstanceOf(Date);
   });
 
-  it("should be able to turn an user as admin", () => {
-    const user = usersRepository.create({
+  it("should be able to turn an user as admin", async () => {
+    const user = await usersRepository.create({
       name: "Vinicius Fraga",
       email: "vinifraga@rocketseat.com",
     });
 
-    const admin = usersRepository.turnAdmin(user);
+    const admin = await usersRepository.turnAdmin(user);
 
     expect(admin).toMatchObject({
       name: user.name,

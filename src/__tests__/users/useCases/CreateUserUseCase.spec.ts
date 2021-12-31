@@ -6,7 +6,7 @@ describe("CreateUserUseCase", () => {
   let usersRepository: UsersRepository;
 
   beforeAll(() => {
-    usersRepository = UsersRepository.getInstance();
+    usersRepository = new UsersRepository();
     createUserUseCase = new CreateUserUseCase(usersRepository);
   });
 

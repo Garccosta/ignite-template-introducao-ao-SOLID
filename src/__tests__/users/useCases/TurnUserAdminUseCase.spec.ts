@@ -8,7 +8,7 @@ describe("TurnUserAdminUseCase", () => {
   let turnUserAdminUseCase: TurnUserAdminUseCase;
 
   beforeAll(() => {
-    usersRepository = UsersRepository.getInstance();
+    usersRepository = new UsersRepository();
     turnUserAdminUseCase = new TurnUserAdminUseCase(usersRepository);
   });
 

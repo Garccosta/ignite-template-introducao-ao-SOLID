@@ -1,57 +1,47 @@
-import { User } from "../../model/User";
+import { getRepository, Repository } from "typeorm";
+
+import { User } from "../../entities/User";
 import { IUsersRepository, ICreateUserDTO } from "../IUsersRepository";
 
 class UsersRepository implements IUsersRepository {
-  private users: User[];
+  private repository: Repository<User>;
 
-  private static INSTANCE: UsersRepository;
-
-  private constructor() {
-    this.users = [];
+  constructor() {
+    this.repository = getRepository(User);
   }
 
-  public static getInstance(): UsersRepository {
-    if (!UsersRepository.INSTANCE) {
-      UsersRepository.INSTANCE = new UsersRepository();
-    }
-
-    return UsersRepository.INSTANCE;
-  }
-
-  create({ name, email }: ICreateUserDTO): User {
-    const user = new User();
-    const created_at = new Date();
-    const updated_at = created_at;
-
-    Object.assign(user, {
+  async create({ name, email }: ICreateUserDTO): Promise<User> {
+    const user = this.repository.create({
       name,
       email,
-      created_at,
-      updated_at,
     });
 
-    this.users.push(user);
+    await this.repository.save(user);
 
     return user;
   }
 
-  findById(id: string): User | undefined {
-    return this.users.find((user) => user.id === id);
+  async findById(id: string): Promise<User> {
+    const user = await this.repository.findOne({ id });
+    return user;
   }
 
-  findByEmail(email: string): User | undefined {
-    return this.users.find((user) => user.email === email);
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.repository.findOne({ email });
+    return user;
   }
 
-  turnAdmin(receivedUser: User): User {
+  async turnAdmin(receivedUser: User): Promise<User> {
     const user = receivedUser;
     user.admin = true;
 
-    return user;
+    await this.repository.update({ admin: false }, { admin: true });
+    return Promise.resolve(user);
   }
 
-  list(): User[] {
-    return this.users;
+  async list(): Promise<User[]> {
+    const user = await this.repository.find();
+    return user;
   }
 }
 

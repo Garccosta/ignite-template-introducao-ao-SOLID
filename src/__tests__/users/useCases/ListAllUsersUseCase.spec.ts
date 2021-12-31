@@ -9,7 +9,7 @@ describe("ListAllUsersUseCase", () => {
   let userId: string;
 
   beforeAll(() => {
-    usersRepository = UsersRepository.getInstance();
+    usersRepository = new UsersRepository();
     listAllUsersUseCase = new ListAllUsersUseCase(usersRepository);
   });
 
