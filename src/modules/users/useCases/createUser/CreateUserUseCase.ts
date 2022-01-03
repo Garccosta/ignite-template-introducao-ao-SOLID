@@ -1,3 +1,4 @@
+import { hash } from "bcryptjs";
 import { ICreateUserDTO } from "modules/users/dtos/ICreateUserDTO";
 import { inject, injectable } from "tsyringe";
 
@@ -12,7 +13,13 @@ class CreateUserUseCase {
   ) {}
 
   async execute(data: ICreateUserDTO): Promise<void> {
-    await this.usersRepository.create(data);
+    const { password } = data;
+    const passwordHash = await hash(password, 8);
+
+    await this.usersRepository.create({
+      ...data,
+      password: passwordHash,
+    });
   }
 }
 
