@@ -1,3 +1,4 @@
+// bcryptjs is used instead of bcrypt due to lack of ARM64 compatibility on the latter
 import { hash } from "bcryptjs";
 import { ICreateUserDTO } from "modules/users/dtos/ICreateUserDTO";
 import { inject, injectable } from "tsyringe";
@@ -12,14 +13,22 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute(data: ICreateUserDTO): Promise<void> {
-    const { password } = data;
+  async execute(data: ICreateUserDTO): Promise<User> {
+    const { password, email } = data;
     const passwordHash = await hash(password, 8);
 
-    await this.usersRepository.create({
+    const userAlreadyExists = await this.usersRepository.findByEmail(email);
+
+    if (userAlreadyExists) {
+      throw new Error("User already exists!");
+    }
+
+    const user = await this.usersRepository.create({
       ...data,
       password: passwordHash,
     });
+
+    return user;
   }
 }
 
