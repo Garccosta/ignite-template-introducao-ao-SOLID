@@ -1,5 +1,6 @@
 import { injectable, inject } from "tsyringe";
 
+import { AppError } from "../../../../../../../../errors/AppError";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -21,7 +22,10 @@ class ListAllUsersUseCase {
       return this.usersRepository.list();
     }
 
-    throw new Error("You don't have permission to execute this command");
+    throw new AppError(
+      "You don't have permission to execute this command",
+      403
+    );
   }
 }
 

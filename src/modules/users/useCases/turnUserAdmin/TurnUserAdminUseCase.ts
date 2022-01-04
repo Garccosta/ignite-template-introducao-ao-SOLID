@@ -1,5 +1,6 @@
 import { injectable, inject } from "tsyringe";
 
+import { AppError } from "../../../../errors/AppError";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -17,7 +18,7 @@ class TurnUserAdminUseCase {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new Error("There is no user with this id!");
+      throw new AppError("There is no user with this id!");
     }
 
     this.usersRepository.turnAdmin(user);

@@ -32,7 +32,7 @@ export async function ensureAuthenticated(
       return response.status(404).json({ error: "User does not exist!" });
     }
 
-    next();
+    return next();
   } catch {
     return response.status(400).json({ error: "Token is invalid!" });
   }
