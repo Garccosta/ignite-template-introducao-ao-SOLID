@@ -3,7 +3,7 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 
 import swaggerFile from "../swagger.json";
-import { usersRoutes } from "./routes/users.routes";
+import { router } from "./routes";
 
 import "./database";
 
@@ -15,6 +15,6 @@ app.use(express.json());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.use("/users", usersRoutes);
+app.use(router);
 
 export { app };

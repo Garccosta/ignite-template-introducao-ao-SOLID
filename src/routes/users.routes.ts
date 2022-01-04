@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { CreateUserController } from "../modules/users/useCases/createUser/CreateUserController";
 import { ListAllUsersController } from "../modules/users/useCases/listAllUsers/ListAllUsersController";
 import { ShowUserProfileController } from "../modules/users/useCases/showUserProfile/ShowUserProfileController";
@@ -13,6 +14,8 @@ const showUserProfileController = new ShowUserProfileController();
 const turnUserAdminController = new TurnUserAdminController();
 
 usersRoutes.post("/", createUserController.handle);
+
+usersRoutes.use(ensureAuthenticated);
 
 usersRoutes.patch("/:user_id/admin", turnUserAdminController.handle);
 
